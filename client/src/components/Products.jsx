@@ -12,21 +12,18 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Wrapper=styled.div`
-`
-const Text=styled.h1`
-text-align:center;
-color: red;
-font-weight: bold;
+const Wrapper = styled.div``;
+const Text = styled.h1`
+  text-align: center;
+  color: red;
+  font-weight: bold;
   ${mobile({ fontSize: "24px" })}
-`
+`;
 
 const Products = ({ cat, filters, sort }) => {
   // console.log(cat,filters,sort);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
-  
 
   useEffect(() => {
     console.log("Category:", cat);
@@ -35,8 +32,8 @@ const Products = ({ cat, filters, sort }) => {
       try {
         const res = await axios.get(
           cat
-            ? `http://localhost:8000/api/products?category=${cat}`
-            : "http://localhost:8000/api/products"
+            ? `https://echobasket-api.vercel.app/api/products?category=${cat}`
+            : "https://echobasket-api.vercel.app/api/products"
         );
         console.log("API Response:", res.data);
         setProducts(res.data);
@@ -81,18 +78,17 @@ const Products = ({ cat, filters, sort }) => {
 
   return (
     <Wrapper>
-    <Text>
-      Explore Our Top Products
-    </Text>
- <Container>
-      {cat
-        ? filteredProducts.map((item) => <Product item={item} key={item.id} />)
-        : products.slice(0, 8).map((item) => (
-            <Product item={item} key={item.id} />
-          ))}
-    </Container>
+      <Text>Explore Our Top Products</Text>
+      <Container>
+        {cat
+          ? filteredProducts.map((item) => (
+              <Product item={item} key={item.id} />
+            ))
+          : products
+              .slice(0, 8)
+              .map((item) => <Product item={item} key={item.id} />)}
+      </Container>
     </Wrapper>
-   
   );
 };
 

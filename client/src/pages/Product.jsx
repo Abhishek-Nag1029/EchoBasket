@@ -6,12 +6,11 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
-import { useLocation } from "react-router-dom";
-import { useEffect, useState} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethod";
 import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div``;
 
@@ -130,8 +129,11 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-  const dispatch=useDispatch();
- 
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
+  const currentUser=useSelector(state=>state.user.currentUser);
+  const cart = useSelector((state) => state.cart);
+  console.log("currentUser",currentUser);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -144,7 +146,7 @@ const Product = () => {
     };
     getProduct();
   }, [id]);
-   
+
   const handleQuantity = (type) => {
     if (type == "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -153,22 +155,30 @@ const Product = () => {
     }
   };
 
-  const handleClick=()=>{
-    dispatch(
-      addProduct({...product,quantity,color,size}));
-    
+  const isInCart = cart.products.filter((item) => item._id === id).length>0;
+
+  const handleClick = () => {
+    if(currentUser){
+      dispatch(addProduct({ ...product, quantity, color, size }));
+    }else{
+      alert("Please Login to add !! product to cart");
+      return;
+    }
   };
 
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[])
+  const viewCart=()=>{
+    navigate('/cart');
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
-
         <ImgContainer>
           <Image src={product.img} />
         </ImgContainer>
@@ -206,7 +216,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <AddOutlinedIcon onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
+            {isInCart ? <Button onClick={viewCart}>View Cart</Button> :  <Button onClick={handleClick}>ADD TO CART</Button>}
           </AddContainer>
         </InfoContainer>
       </Wrapper>

@@ -70,7 +70,7 @@ const Register = () => {
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -82,7 +82,7 @@ const Register = () => {
       setLoading(true);
       console.log(user);
       const res = await axios.post(
-        "http://localhost:8000/api/auth/register",
+        "https://echobasket-api.vercel.app/api/auth/register",
         user
       );
       const data = await res.data;

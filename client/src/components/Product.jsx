@@ -3,6 +3,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Info = styled.div`
   opacity: 0;
@@ -66,12 +67,18 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/cart");
+  };
+
   return (
     <Container>
       <Circle />
       <Image src={item.img} />
       <Info>
-        <Icon>
+        <Icon onClick={handleClick}>
           <ShoppingCartOutlinedIcon />
         </Icon>
         <Icon>

@@ -214,7 +214,7 @@ const Cart = () => {
   };
   const handleToken = (totalAmount, token) => {
     try {
-      const pay = axios.post("http://localhost:8000/api/checkout/payment", {
+      const pay = axios.post("https://echobasket-api.vercel.app/api/checkout/payment", {
         token: token.id,
         amount: 500,
       });
