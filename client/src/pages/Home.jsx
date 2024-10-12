@@ -15,7 +15,7 @@ const Home = () => {
     <Navbar/>
     <Slider/>
     <Categories/>
-    <Products/> //There is logic of filtering and sorting inside it
+    <Products/> 
     <Newsletter/>
     <Footer/>
     </div>
