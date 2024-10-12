@@ -3,8 +3,8 @@ import styled from "styled-components"
 const Container=styled.div`
 height:30px;
 display: flex;
-align-items: center;
-justify-content: center;
+align-items: center; //vertical
+justify-content: center; //hprizontal
 background-color:#09292C;
 color:white;
 font-size: 15px;

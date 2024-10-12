@@ -1,5 +1,5 @@
-import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
-import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
+import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { sliderItems } from "../data";
@@ -12,7 +12,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
-  ${mobile({display:"none"})}
+  ${mobile({ display: "none" })}
 `;
 
 const Arrow = styled.div`
@@ -46,13 +46,13 @@ const Slide = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
-  background-color: ${(props) => '#${props.bg}'};
+  background-color: ${(props) => "#${props.bg}"};
 `;
 
 const ImgContainer = styled.div`
   height: 100%;
   flex: 1;
-  display:flex;
+  display: flex;
   justify-content: center;
 `;
 
@@ -90,14 +90,14 @@ const Slider = () => {
       setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
     }
   };
-  
+
   return (
     <Container>
       <Arrow direction="left" onClick={() => handleClick("left")}>
         <KeyboardArrowLeftOutlinedIcon />
       </Arrow>
       <Wrapper slideIndex={slideIndex}>
-        {sliderItems.map((item,index) => (
+        {sliderItems.map((item, index) => (
           <Slide bg={item.bg} key={item.id}>
             <ImgContainer>
               <Image src={item.img} />
@@ -110,7 +110,7 @@ const Slider = () => {
           </Slide>
         ))}
       </Wrapper>
-      <Arrow direction="right" onClick={() => handleClick("left")}>
+      <Arrow direction="right" onClick={() => handleClick("right")}>
         <KeyboardArrowRightOutlinedIcon />
       </Arrow>
     </Container>
