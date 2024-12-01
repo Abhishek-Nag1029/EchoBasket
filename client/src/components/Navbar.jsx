@@ -3,7 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { mobile } from "../responsive";
+import { xs, sm, md, lg, xl } from "../responsive"; // Import breakpoints
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,18 @@ import { setLogout } from "../redux/userRedux";
 
 const Container = styled.div`
   height: 60px;
-  ${mobile({ height: "50px" })}
+
+  ${xs({
+    height: "50px",
+  })}
+
+  ${sm({
+    height: "55px",
+  })}
+
+  ${md({
+    height: "58px",
+  })}
 `;
 
 const Wrapper = styled.div`
@@ -19,19 +30,38 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${mobile({ padding: "10px 0px" })}
+
+  ${xs({
+    padding: "10px 0px",
+    justifyContent: "space-between", // Ensure space around items
+  })}
+
+  ${sm({
+    padding: "10px 5px",
+  })}
 `;
 
 const Left = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+
+  ${xs({
+    display: "none", // Hide Left section for small screens
+  })}
 `;
 
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
-  ${mobile({ display: "none" })}
+
+  ${xs({
+    display: "none",
+  })}
+
+  ${sm({
+    fontSize: "12px",
+  })}
 `;
 
 const SearchContainer = styled.div`
@@ -40,24 +70,51 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-left: 25px;
   padding: 5px;
+
+  ${xs({
+    display: "none", // Hide search bar for small screens
+  })}
 `;
 
 const Input = styled.input`
   border: none;
   outline: none;
-  ${mobile({ width: "50px" })}
+
+  ${xs({
+    width: "50px",
+  })}
+
+  ${sm({
+    width: "70px",
+  })}
 `;
 
 const Center = styled.div`
   flex: 1;
   text-align: center;
+  display: flex;
+  justify-content: center; /* Center the content */
+  align-items: center; /* Vertically center the content */
 `;
 
 const Logo = styled.h1`
   text-align: center;
   color: red;
   font-weight: bold;
-  ${mobile({ fontSize: "24px" })}
+  width: 100%; /* Ensure it takes full width on small devices */
+
+  ${xs({
+    fontSize: "18px",
+    textAlign: "center",  // Ensure centering on mobile
+  })}
+
+  ${sm({
+    fontSize: "22px",
+  })}
+
+  ${md({
+    fontSize: "24px",
+  })}
 `;
 
 const Right = styled.div`
@@ -65,25 +122,45 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  ${mobile({ flex: "2", justifyContent: "center" })}
+
+  ${xs({
+    flex: "2",
+    justifyContent: "center", // Center the content for small devices
+  })}
 `;
 
 const MenuItem = styled.div`
   margin-left: 25px;
   font-size: 14px;
   cursor: pointer;
-  ${mobile({ marginLeft: "12px", fontSize: "10px" })}
+
+  ${xs({
+    marginLeft: "10px",
+    fontSize: "10px",
+  })}
+
+  ${sm({
+    marginLeft: "15px",
+    fontSize: "12px",
+  })}
 `;
 
-const SignOut=styled.div`
-  /* margin-top: 25px; */
-  /* width: 8%; */
+const SignOut = styled.div`
   border: none;
   padding: 5px 10px;
   background-color: teal;
   color: white;
   cursor: pointer;
-  border-radius: 10px;`
+  border-radius: 10px;
+
+  ${xs({
+    padding: "3px 7px",
+  })}
+
+  ${sm({
+    padding: "4px 8px",
+  })}
+`;
 
 const Navbar = ({ user }) => {
   var isUser = false;
@@ -94,7 +171,6 @@ const Navbar = ({ user }) => {
   const [title, setTitle] = useState("");
   const location = useLocation();
   console.log(location.pathname);
-  // console.log(quantity);
 
   if (currentUser) {
     console.log(currentUser.username);
@@ -116,10 +192,6 @@ const Navbar = ({ user }) => {
       <Wrapper>
         <Left>
           <Language>EN</Language>
-          <SearchContainer>
-            <Input placeholder="Search" />
-            <SearchIcon style={{ color: "gray", fontSize: 16 }} />
-          </SearchContainer>
         </Left>
         <Center>
           <Logo>
@@ -136,13 +208,10 @@ const Navbar = ({ user }) => {
         </Center>
         <Right>
           {!currentUser ? (
-            <>  
-              
-              
-                <MenuItem>
-                <Link to="/login" >SIGN IN</Link>
-                </MenuItem>
-             
+            <>
+              <MenuItem>
+                <Link to="/login">SIGN IN</Link>
+              </MenuItem>
               <Link to="/register">
                 <MenuItem>SIGN UP</MenuItem>
               </Link>
@@ -157,7 +226,9 @@ const Navbar = ({ user }) => {
                 </MenuItem>
               </Link>
               <SignOut type="submit" onClick={handleLogout}>
-              <Link to="/" style={{color:"white",textDecoration:"none"}}>LogOut</Link>
+                <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+                  LogOut
+                </Link>
               </SignOut>
             </div>
           )}

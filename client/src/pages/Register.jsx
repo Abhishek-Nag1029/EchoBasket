@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mobile } from "../responsive";
+import { mobile, xs, sm, md, lg, xl } from "../responsive";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -23,7 +23,12 @@ const Wrapper = styled.div`
   width: 40%;
   padding: 20px;
   background-color: white;
-  ${mobile({ width: "75%" })}
+  ${mobile({ width: "90%" })};  /* More reduced width on small screens */
+  ${xs({ width: "85%" })};     /* Smaller width on extra small screens */
+  ${sm({ width: "75%" })};     /* Reduced width on small screens */
+  ${md({ width: "60%" })};     /* Slightly larger on medium screens */
+  ${lg({ width: "50%" })};     /* Standard size for large screens */
+  ${xl({ width: "40%" })};     /* Default for extra-large screens */
 `;
 
 const Title = styled.h1`
@@ -80,7 +85,6 @@ const Register = () => {
       }
 
       setLoading(true);
-      console.log(user);
       const res = await axios.post(
         "https://echobasket-api.vercel.app/api/auth/register",
         user

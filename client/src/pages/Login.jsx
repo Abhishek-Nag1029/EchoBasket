@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { mobile } from "../responsive";
 import { useState } from "react";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginSuccess, loginStart, loginFailure } from "../redux/userRedux";
 import { publicRequest } from "../requestMethod";
 import CircularProgress from "@mui/material/CircularProgress";
+import { mobile, xs, sm, md, lg, xl } from "../responsive"; // Import responsive helper
 
+// Styled components
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -24,56 +25,77 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 25%;
-  padding: 20px;
+  width: 30%;
+  padding: 40px;
   background-color: white;
-  ${mobile({ width: "75%" })}
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  ${mobile({ width: "80%" })} // For small devices
+  ${xs({ width: "90%" })} // For extra small devices (e.g., very small mobile screens)
+  ${sm({ width: "70%" })} // For small to medium devices (e.g., larger smartphones)
+  ${md({ width: "50%" })} // For medium devices (e.g., tablets)
+  ${lg({ width: "40%" })} // For large devices (e.g., laptops)
+  ${xl({ width: "30%" })} // For extra large devices (e.g., desktops)
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
+  font-size: 28px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 20px;
 `;
 
 const Input = styled.input`
   flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  
+  &:focus {
+    border-color: teal;
+  }
 `;
 
 const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 20px;
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
   background-color: teal;
   color: white;
   cursor: pointer;
-  margin-bottom: 10px;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #00695c;
+  }
+  
   &:disabled {
-    color: green;
+    background-color: #cccccc;
     cursor: not-allowed;
   }
 `;
 
-const Lin = styled.a`
-  margin: 5px 0px;
-  font-size: 12px;
-  /* text-decoration: underline; */
-  cursor: pointer;
+const Lin = styled.div`
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
 `;
 
 const Error = styled.span`
   color: red;
-`;
-
-const Wrong = styled.p`
-  color: "red";
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
 `;
 
 const Login = () => {
@@ -83,7 +105,6 @@ const Login = () => {
   const [err, setErr] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isFetching, error } = useSelector((state) => state.user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,9 +114,7 @@ const Login = () => {
         username,
         password,
       });
-      const data = await res.data;
-      console.log(data);
-      dispatch(loginSuccess(data));
+      dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (error) {
       setErr(true);
@@ -108,31 +127,34 @@ const Login = () => {
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Input
-            placeholder="username"
+            placeholder="Username"
+            type="text"
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <Input
-            placeholder="password"
+            placeholder="Password"
             type="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
-
-          <Button onClick={handleSubmit} disabled={loading}>
+          <Button type="submit" disabled={loading}>
             {loading ? (
-              <CircularProgress
-                size={10}
-                sx={{ color: "white", padding: "0px", margin: "0px" }}
-              />
+              <CircularProgress size={20} sx={{ color: "white" }} />
             ) : (
               "LOGIN"
             )}
           </Button>
+          {err && <Error>Wrong Username or Password</Error>}
           <Lin>
-            <Link to="/register">Dont't have an account create here</Link>
+            <Link to="/register" style={{ textDecoration: "none", color: "teal" }}>
+              Don't have an account? Create one here
+            </Link>
           </Lin>
-          {err && <Wrong>Wrong Username or Password</Wrong>}
         </Form>
       </Wrapper>
     </Container>
